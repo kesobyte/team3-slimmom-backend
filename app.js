@@ -1,7 +1,7 @@
 import express from "express";
 import logger from "morgan";
 import cors from "cors";
-// import { router as contactsRouter } from "./routes/api/contactsRouter.js";
+import { router as homeRouter } from "./routes/api/homeRouter.js";
 import { router as authRouter } from "./routes/api/authRouter.js";
 
 const app = express();
@@ -12,7 +12,7 @@ app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
 
-// app.use("/api/contacts", contactsRouter);
+app.use("/", homeRouter);
 app.use("/api/auth", authRouter);
 
 app.use((_req, res) => {
