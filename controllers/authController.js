@@ -41,16 +41,22 @@ const register = async (req, res) => {
 
   // Send an email to the user's mail and specify a link to verify the email (/users/verify/:verificationToken) in the message
   await sendEmail({
+    from: '"Slim-mom Notification" <noreply.slimmom@gmail.com>',
     to: email,
-    from: "Slim-mom Notification",
-    subject: "Email verification required",
+    subject: "Email Verification Required",
     html: `
-    <h3>Hi, ${name}!</h3>
-    <br>
-    <p>Thanks for signing up to Slim Mom. Before we can continue, we need to validate your email address.</p>
-    <br>
-    <a target="_blank" href="${APP_URL}/api/auth/verify/${verificationToken}">Click here to verify email</a>
-    `,
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eaeaea; border-radius: 10px;">
+      <h2 style="color: #333;">Hi, ${name}!</h2>
+      <p style="font-size: 16px; color: #555;">Thanks for signing up for <strong>Slim Mom</strong>! Before we can continue, we need to validate your email address.</p>
+      <p style="font-size: 16px; color: #555;">Please click the button below to verify your email address:</p>
+      <a href="${APP_URL}/api/auth/verify/${verificationToken}" 
+         style="display: inline-block; padding: 10px 25px; margin-top: 20px; font-size: 16px; color: #fff; background-color: #fc842d; text-decoration: none; border-radius: 5px;">
+         Verify Email
+      </a>
+      <p style="margin-top: 30px; font-size: 14px; color: #999;">If you did not sign up for Slim Mom, please ignore this email.</p>
+      <p style="font-size: 14px; color: #999;">Thanks, <br>GOIT Team 3</p>
+    </div>
+  `,
   });
 
   // Registration success response
@@ -174,13 +180,22 @@ const resendVerifyEmail = async (req, res) => {
   }
 
   await sendEmail({
+    from: '"Slim-mom Notification" <noreply.slimmom@gmail.com>',
     to: email,
-    subject: "Action Required: Verify Your Email [Resend]",
+    subject: "Email Verification Required (Resend)",
     html: `
-    <h2>Welcome to Slim Mom App</h2>
-    <br>
-    <a target="_blank" href="${APP_URL}/api/auth/verify/${user.verificationToken}">Click here to verify email</a>
-    `,
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eaeaea; border-radius: 10px;">
+      <h2 style="color: #333;">Hi, ${user.name}!</h2>
+      <p style="font-size: 16px; color: #555;">Thanks for signing up for <strong>Slim Mom</strong>! Before we can continue, we need to validate your email address.</p>
+      <p style="font-size: 16px; color: #555;">Please click the button below to verify your email address:</p>
+      <a href="${APP_URL}/api/auth/verify/${user.verificationToken}" 
+         style="display: inline-block; padding: 10px 25px; margin-top: 20px; font-size: 16px; color: #fff; background-color: #fc842d; text-decoration: none; border-radius: 5px;">
+         Verify Email
+      </a>
+      <p style="margin-top: 30px; font-size: 14px; color: #999;">If you did not sign up for Slim Mom, please ignore this email.</p>
+      <p style="font-size: 14px; color: #999;">Thanks, <br>GOIT Team 3</p>
+    </div>
+  `,
   });
 
   // Resending a email success response
