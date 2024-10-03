@@ -1,15 +1,4 @@
-## GoIT Node.js Course Template Homework
+## Slim-mom Backend
 
-Please fork this repository to complete your homework assignments (2-6).
-Forking will create a repository on your http://github.com account.
-
-## Explanation Recording to handle homeworks in the Node.js Block
-[Watch the video](https://www.loom.com/share/007c97d271604e02ae61adbb5b69edd3)
-
-### Commands:
-
-- `npm install` &mdash; install all the dependencies
-- `npm start` &mdash; starts the server in production mode.
-- `npm run start:dev` &mdash; starts the server in development mode.
-- `npm run lint` &mdash; runs eslint to check the code. Make sure to execute this before each PR and fix all linting errors.
-- `npm lint:fix` &mdash; same as the previous command but fixes simple linting errors automatically.
+Team 3 Fullstack Final Project
+API_URL: https://team3-slimmom-backend.onrender.com/api
