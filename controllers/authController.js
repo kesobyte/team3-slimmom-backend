@@ -42,9 +42,12 @@ const register = async (req, res) => {
   // Send an email to the user's mail and specify a link to verify the email (/users/verify/:verificationToken) in the message
   await sendEmail({
     to: email,
-    subject: "Action Required: Verify Your Email",
+    from: "Slim-mom Notification",
+    subject: "Email verification required",
     html: `
-    <h2>Welcome to Slim Mom App</h2>
+    <h3>Hi, ${name}!</h3>
+    <br>
+    <p>Thanks for signing up to Slim Mom. Before we can continue, we need to validate your email address.</p>
     <br>
     <a target="_blank" href="${APP_URL}/api/auth/verify/${verificationToken}">Click here to verify email</a>
     `,
