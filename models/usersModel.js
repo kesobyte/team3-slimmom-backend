@@ -29,7 +29,8 @@ const userSchema = new Schema(
     },
     verificationToken: {
       type: String,
-      required: [true, "Verify token is required"],
+      default: null, // Allow verificatrionToken to be null
+      // required: [true, "Verify token is required"],
     },
   },
   { versionKey: false, timestamps: true }

@@ -5,21 +5,22 @@ import "dotenv/config";
 const { SECRET_KEY } = process.env;
 
 const authenticateToken = async (req, _res, next) => {
-  const { authorization = "" } = req.headers;
-  const [bearer, token] = authorization.split(" ");
+  const authHeader = req.headers.authorization || '';
+  const token = authHeader.replace('Bearer ', '');
 
-  if (bearer !== "Bearer") {
+  if (!token) {
     next(httpError(401, "Not authorized"));
   }
 
   try {
-    const { id } = jwt.verify(token, SECRET_KEY);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const user = await User.findById(id);
 
-    if (!user || !user.accessToken || user.accessToken !== token) {
+    if (!user || !user.token !== token) {
       next(httpError(401, "Not authorized"));
     }
 
+    // Attach the user to the request object
     req.user = user;
     next();
   } catch {

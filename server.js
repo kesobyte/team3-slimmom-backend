@@ -1,10 +1,12 @@
+import dotenv from "dotenv";
+dotenv.config({ path: './.env' });
 import { app } from "./app.js";
 import mongoose from "mongoose";
-import dotenv from "dotenv";
 
-dotenv.config();
+const DB_HOST = process.env.DB_HOST;
+const PORT = process.env.PORT || 5000;  // Set the port properly
 
-const { DB_HOST, PORT = 5000 } = process.env;
+console.log('DB_HOST is:', DB_HOST);  // Log to check if DB_HOST is loaded
 
 mongoose
   .connect(DB_HOST)
