@@ -26,6 +26,6 @@ const diaryRecordSchema = new Schema(
   { versionKey: false }
 );
 
-const diaryRecord = model("diaryrecord", diaryRecordSchema);
+const DiaryRecord = model("diaryrecord", diaryRecordSchema);
 
-export { diaryRecord };
+export { DiaryRecord };

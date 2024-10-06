@@ -36,6 +36,6 @@ const userSchema = new Schema(
   { versionKey: false, timestamps: true }
 );
 
-const User = model("users", userSchema);
+const User = model("user", userSchema);
 
 export { User };

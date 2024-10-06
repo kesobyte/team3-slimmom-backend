@@ -4,4 +4,6 @@ const welcome = async (_req, res) => {
   });
 };
 
-export { welcome };
+
+
+export { welcome};

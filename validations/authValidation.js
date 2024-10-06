@@ -2,47 +2,30 @@ import Joi from "joi";
 
 // validation for register
 const registerValidation = Joi.object({
-  name: Joi.string().required(),
-  email: Joi.string()
-    .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
-    .required()
-    .messages({
-      "any.required": "Missing required email field",
-      "string.email": "Invalid email format",
-    }),
-  password: Joi.string().min(6).max(16).required().messages({
-    "any.required": "Missing required password field",
-    "string.min": "Password must be at least {#limit} characters long",
-    "string.max": "Password cannot be longer than {#limit} characters",
-  }),
+  name: Joi.string().min(3).max(30).required(),
+  email: Joi.string().email().required(),
+  password: Joi.string().min(6).required(),
 });
 
 // validation for login
 const loginValidation = Joi.object({
-  email: Joi.string()
-    .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
-    .required()
-    .messages({
-      "any.required": "Missing required email field",
-      "string.email": "Invalid email format",
-    }),
-  password: Joi.string().min(6).max(16).required().messages({
-    "any.required": "Missing required password field",
-    "string.min": "Password must be at least {#limit} characters long",
-    "string.max": "Password cannot be longer than {#limit} characters",
-  }),
+  email: Joi.string().email().required(),
+  password: Joi.string().min(6).required(),
 });
 
 // validation for email
 const emailValidation = Joi.object({
-  email: Joi.string()
-    .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
-    .required()
-    .messages({
-      "any.required": "Missing required email field",
-      "string.email": "Invalid email format",
-    }),
+  email: Joi.string().email().required(),
+});
+
+// validation for calculator
+const calculatorValidation = Joi.object({
+  height: Joi.number().required(),  // Correcting to 'heigth' if you want to keep the typo
+  dWeight: Joi.number().required(),
+  age: Joi.number().required(),
+  cWeight: Joi.number().required(),
+  bloodType: Joi.number().required().valid(1,2,3,4),
 });
 
 // prettier-ignore
-export {  registerValidation, loginValidation, emailValidation };
+export {  registerValidation, loginValidation, emailValidation, calculatorValidation };

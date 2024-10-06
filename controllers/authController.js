@@ -4,7 +4,7 @@ import { httpError } from "../helpers/httpError.js";
 import { sendEmail } from "../helpers/sendEmail.js";
 import { handleTokens } from "../helpers/handleTokens.js";
 import { v4 as uuid4 } from "uuid";
-import { User } from "../models/usersModel.js";
+import { User } from "../models/userModel.js";
 // prettier-ignore
 import { emailValidation, registerValidation, loginValidation} from "../validations/authValidation.js";
 
