@@ -139,12 +139,12 @@ const logout = async (req, res, next) => {
   try {
     const { _id } = req.user;
     // Setting tokens to null then logout)
-    await User.findByIdAndUpdate(_id, { accessToken: "", refreshToken: "" });
+    await User.findByIdAndUpdate(_id, { accessToken: null, refreshToken: null });
 
     // Logout success response
     res.status(204).json();
   } catch (error) {
-      next(err);
+      next(error);
   }
 };
 
