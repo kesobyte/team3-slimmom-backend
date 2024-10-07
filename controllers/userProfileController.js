@@ -7,7 +7,7 @@ import { getProductsByBloodType } from "./productController.js"; // Import the f
 const updateUserProfile = async (req, res, next) => {
   try {
     const { _id: userId } = req.user;  // Get userId from req.user after authentication
-    const { height, dWeight, age, bloodType, cWeight } = req.body;
+    const { height, dWeight, age, bloodType, cWeight, dailyCalories } = req.body;
 
     // Validate the input using calculatorValidation
     const { error } = calculatorValidation.validate(req.body);
@@ -28,6 +28,7 @@ const updateUserProfile = async (req, res, next) => {
         age,
         bloodType,
         cWeight,
+        dailyCalories,
       });
 
       return res.status(201).json({
@@ -40,7 +41,7 @@ const updateUserProfile = async (req, res, next) => {
     // Update the existing profile
     userProfile = await Profile.findOneAndUpdate(
       { userId },  // Find the profile by userId
-      { height, dWeight, age, bloodType, cWeight },  // Update fields
+      { height, dWeight, age, bloodType, cWeight, dailyCalories},  // Update fields
       { new: true }  // Return the updated profile
     );
 

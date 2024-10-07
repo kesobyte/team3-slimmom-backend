@@ -26,6 +26,9 @@ const userProfileSchema = new Schema(
             type: Number,
             required: [true],
         },
+        dailyCalories: {
+            type: Number,
+        }
       },
       { versionKey: false }
 );

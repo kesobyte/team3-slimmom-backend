@@ -25,6 +25,7 @@ const calculatorValidation = Joi.object({
   age: Joi.number().required(),
   cWeight: Joi.number().required(),
   bloodType: Joi.number().required().valid(1,2,3,4),
+  dailyCalories: Joi.number().required(),
 });
 
 // prettier-ignore
