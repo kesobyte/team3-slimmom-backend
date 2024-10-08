@@ -4,7 +4,7 @@ import cors from "cors";
 import { router as homeRouter } from "./routes/api/homeRouter.js";
 import { router as authRouter } from "./routes/api/authRouter.js";
 import { router as productRouter } from "./routes/api/productRouter.js";
-import { router as userProfileRouter} from "./routes/api/userProfileRouter.js"
+import { router as userProfileRouter} from "./routes/api/userProfileRouter.js";
 
 const app = express();
 
@@ -16,7 +16,7 @@ app.use(express.json());
 
 app.use("/", homeRouter);
 app.use("/api/auth", authRouter);
-app.use("/api", productRouter);
+app.use("/api/products", productRouter);
 app.use("/api", userProfileRouter);
 
 app.use((_req, res) => {

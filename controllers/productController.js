@@ -30,4 +30,46 @@ const getProductsByBloodType = async (req, res, next) => {
   }
 };
 
-export { getProductsByBloodType };
+// Function to search for products based on query parameters
+const searchProducts = async (req, res) => {
+  try {
+    const { title, categories, weight, minCalories, maxCalories, bloodType } = req.query;
+
+    // Create a filter object for the query
+    const filter = {};
+
+    // Add filters based on the provided query parameters
+    if (title) {
+      filter.title = { $regex: title, $options: "i" }; // Case-insensitive search for title
+    }
+    if (categories) {
+      filter.categories = categories;
+    }
+    if (weight) {
+      filter.weight = weight;
+    }
+    if (minCalories || maxCalories) {
+      filter.calories = {};
+      if (minCalories) filter.calories.$gte = Number(minCalories);
+      if (maxCalories) filter.calories.$lte = Number(maxCalories);
+    }
+    if (bloodType) {
+      filter.groupBloodNotAllowed = { $ne: bloodType }; // Exclude products not allowed for the blood type
+    }
+
+    // Query the database with the constructed filter
+    const products = await Product.find(filter);
+
+    // If no products are found
+    if (!products.length) {
+      return res.status(404).json({ message: "No products found" });
+    }
+
+    // Return the matched products
+    res.status(200).json(products);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
+export { getProductsByBloodType, searchProducts };
