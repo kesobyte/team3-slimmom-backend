@@ -20,3 +20,17 @@ mongoose
     console.error(`Server not running. Error message: ${err.message}`);
     process.exit(1); // Exit with a failure code
   });
+
+
+// import {Session} from './models/sessionModel.js'; // Adjust the path accordingly
+
+// const sampleSession = new Session({
+//   accessToken: 'sampleAccessToken',
+//   refreshToken: 'sampleRefreshToken',
+//   expiration: new Date(Date.now() + 3600000), // 1 hour from now
+//   userId: '6702595e9b21ebd131247e36', // Replace with an actual user ID
+// });
+
+// sampleSession.save()
+//   .then(() => console.log('Sample session saved'))
+//   .catch((error) => console.error('Error saving session:', error));

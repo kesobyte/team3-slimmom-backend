@@ -1,10 +1,12 @@
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import "dotenv/config";
 import { httpError } from "../helpers/httpError.js";
 import { sendEmail } from "../helpers/sendEmail.js";
 import { handleTokens } from "../helpers/handleTokens.js";
 import { v4 as uuid4 } from "uuid";
 import { User } from "../models/userModel.js";
+import { Session } from "../models/sessionModel.js";
 // prettier-ignore
 import { emailValidation, registerValidation, loginValidation} from "../validations/authValidation.js";
 
@@ -79,72 +81,78 @@ const register = async (req, res) => {
 // Login Operation *********************************
 
 const login = async (req, res) => {
-  try{
+  try {
     const { email, password } = req.body;
-    
-    //  Login validation error
-    const { error } = loginValidation.validate(req.body);
-    if (error) {
-      throw httpError(401, error.message);
-    }
 
-    // Login auth error (email)
+    // Step 1: Find the user by email
     const user = await User.findOne({ email });
     if (!user) {
-      throw httpError(401, "Email or password is incorrect");
+      return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    // Check if user has already verified his email
-    if (!user.verify) {
-      throw httpError(401, "Email is not verified. Please verify email via email verification link sent during registration.");
-    }
-    // Login auth error (password)
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) {
-      throw httpError(401, "Email or password is incorrect");
+    // Step 2: Verify the password (assuming bcrypt is used)
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    // Generate token for authenticated user
-    const { accessToken, refreshToken } = await handleTokens(user._id);
+    // Step 3: Generate JWT tokens
+    const accessToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const refreshToken = jwt.sign({ userId: user._id }, process.env.JWT_REFRESH_SECRET, { expiresIn: '7d' });
 
-    //  Login success response
+    // Step 4: Create a new session and save it to the database
+    const newSession = new Session({
+      accessToken,
+      refreshToken,
+      expiration: Date.now() + 3600000, // Set expiration for 1 hour
+      userId: user._id,
+    });
+
+    await newSession.save(); // Save the session to the database
+
+    // Step 5: Send the tokens back in the response
     res.status(200).json({
-      user: {
-        name: user.name,
-        email: user.email,
-        accessToken,
-        refreshToken,
-      },
+      message: 'Login successful',
+      accessToken,
+      refreshToken,
     });
   } catch (error) {
-    console.error('Error during login:', err);
-    res.status(500).json({ message: 'Internal Server Error' });
+    console.error('Error during login:', error);
+    res.status(500).json({ message: 'Login failed' });
   }
 };
 
 // Current User Operation *********************************
 
 const getCurrentUsers = async (req, res) => {
-  const { name, email } = req.user;
+  try {
+    // Destructure the necessary fields from req.user
+    const { name, email } = req.user;
 
-  res.json({
-    name,
-    email,
-  });
+    // Send the user details in the response
+    res.status(200).json({
+      name,
+      email,
+    });
+  } catch (error) {
+    console.error('Error fetching current user:', error);
+    res.status(500).json({ message: 'Error fetching current user' });
+  }
 };
 
 // Logout Operation *********************************
 
 const logout = async (req, res, next) => {
   try {
-    const { _id } = req.user;
-    // Setting tokens to null then logout)
-    await User.findByIdAndUpdate(_id, { accessToken: null, refreshToken: null });
+    const userId = req.user._id; // Get the user's ID from the authenticated request
+
+    // Find and delete the session associated with the user
+    await Session.findOneAndDelete({ userId });
 
     // Logout success response
     res.status(204).json();
   } catch (error) {
-      next(error);
+    next(error);
   }
 };
 
@@ -248,5 +256,46 @@ const resendVerifyEmail = async (req, res) => {
 }
 };
 
+// Reresh Token Logic
+const refreshTokens = async (req, res) => {
+  try {
+    const { refreshToken } = req.body;
+
+    if (!refreshToken) {
+      return res.status(401).json({ message: 'Refresh token missing' });
+    }
+
+    // Step 1: Check if the refresh token exists in the session database
+    const session = await Session.findOne({ refreshToken });
+    if (!session) {
+      return res.status(403).json({ message: 'Invalid refresh token' });
+    }
+
+    // Step 2: Verify the refresh token
+    jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET, async (err, decoded) => {
+      if (err) {
+        return res.status(403).json({ message: 'Invalid or expired refresh token' });
+      }
+
+      // Step 3: Generate a new access token
+      const newAccessToken = jwt.sign({ userId: decoded.userId }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+      // Update the session with the new access token
+      session.accessToken = newAccessToken;
+      session.expiration = Date.now() + 3600000; // Update expiration for 1 hour
+      await session.save(); // Save the updated session
+
+      // Step 4: Send the new access token in the response
+      res.status(200).json({
+        accessToken: newAccessToken,
+        refreshToken, // Keep the same refresh token
+      });
+    });
+  } catch (error) {
+    console.error('Error during token refresh:', error);
+    res.status(500).json({ message: 'Token refresh failed' });
+  }
+};
+
 // prettier-ignore
-export { register, login, logout, getCurrentUsers, verifyEmail, resendVerifyEmail};
+export { register, login, logout, getCurrentUsers, verifyEmail, resendVerifyEmail, refreshTokens};
