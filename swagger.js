@@ -12,7 +12,7 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: "https://goit-slimmom-team-03-d472951ab141.herokuapp.com/",
+        url: "https://goit-slimmom-team-03-d472951ab141.herokuapp.com",
       },
     ],
     components: {
