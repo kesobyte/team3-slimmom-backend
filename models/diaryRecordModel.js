@@ -10,7 +10,7 @@ const diaryRecordSchema = new Schema(
       type: Date,
       required: [true],
     },
-    product: {
+    title: {
       type: String,
       required: [true],
     },
@@ -20,6 +20,14 @@ const diaryRecordSchema = new Schema(
     },
     calories: {
       type: Number,
+      required: [true],
+    },
+    calorieIntake: {
+      type: Number,
+      required: [true],
+    },
+    category: {
+      type: String,
       required: [true],
     },
   },

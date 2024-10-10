@@ -39,6 +39,6 @@ router.get("/verify/:verificationToken", ctrlWrapper(verifyEmail));
 */
 router.post("/verify", ctrlWrapper(resendVerifyEmail));
 
-router.post("/refresh", refreshTokens);
+router.post("/refresh", refreshTokens); // do we need to prior to refreshingtoken?
 
 export { router };

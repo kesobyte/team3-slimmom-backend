@@ -4,6 +4,7 @@ import { Session } from "../models/sessionModel.js";
 import "dotenv/config";
 
 const authenticateToken = async (req, res, next) => {
+  console.log("authenticateToken middleware hit");
   const token = req.headers['authorization']?.split(' ')[1];
 
   if (!token) {

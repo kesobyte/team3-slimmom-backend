@@ -5,8 +5,8 @@ import { authenticateToken } from "../../middlewares/authenticateToken.js";
 const router = express.Router();
 
 // PUT: /api/profile/:userId
-router.put("/profile", authenticateToken, updateUserProfile);
+router.put("/update", authenticateToken, updateUserProfile);
 // GET: /api/profile
-router.get("/profile", authenticateToken, getUserProfile);
+router.get("/fetch", authenticateToken, getUserProfile);
 
 export { router };
