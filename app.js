@@ -1,4 +1,5 @@
 import express from "express";
+import { swaggerDocs, swaggerUi } from "./swagger.js"; // Import swagger configuration
 import logger from "morgan";
 import cors from "cors";
 import { router as homeRouter } from "./routes/api/homeRouter.js";
@@ -20,6 +21,9 @@ app.use("/api/auth", authRouter);
 app.use("/api/products", productRouter);
 app.use("/api/profile", userProfileRouter);
 app.use("/api/diary", diaryRecordRouter);
+
+// Serve Swagger UI
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.use((_req, res) => {
   res.status(404).json({ message: "Not found" });
