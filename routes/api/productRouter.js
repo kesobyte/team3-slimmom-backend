@@ -5,7 +5,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /api/products/blood-type/:bloodType:
+ * /api/product/blood-type/:bloodType:
  *   get:
  *     summary: Retrieve products filtered by blood type. Public.
  *     tags: [Products]
@@ -51,7 +51,7 @@ router.get("/blood-type/:bloodType", getProductsByBloodType);
 
 /**
  * @swagger
- * /api/products/search{?title=product_user_is_trying_to_search}:
+ * /api/product/search{?title=product_user_is_trying_to_search}:
  *   get:
  *     summary: Search for products based on a query parameter. Public.
  *     tags: [Products]
