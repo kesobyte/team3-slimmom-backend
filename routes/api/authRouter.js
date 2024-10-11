@@ -64,7 +64,7 @@ router.post("/register", ctrlWrapper(register));
 
 /**
  * @swagger
- * /api/auth/verify/:verificationToken:
+ * /api/auth/verify/{verificationToken}:
  *   get:
  *     summary: Verify a user's email address. Public.
  *     tags: [Auth]
@@ -194,7 +194,7 @@ router.post("/login", ctrlWrapper(login));
  * @swagger
  * /api/auth/current:
  *   get:
- *     summary: Retrieve the currently authenticated user's information. Private
+ *     summary: Retrieve the currently authenticated user's information
  *     tags: [Auth]
  *     security:
  *       - bearerAuth: []
@@ -216,7 +216,7 @@ router.post("/login", ctrlWrapper(login));
  *                   type: string
  *                   description: The subscription plan of the user
  *       401:
- *         description: Unauthorized - user must be authenticated
+ *         description: Unauthorized - user must be authenticated with a valid bearer token
  */
 
 // GET: https://goit-slimmom-team-03d472951ab141/api/auth/current

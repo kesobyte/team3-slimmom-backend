@@ -7,7 +7,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /api/diary/fetch{?date=yyyy-mm-dd}:
+ * /api/diary/fetch:
  *   get:
  *     summary: Retrieve diary record filtered by specified date with yyyy-mm-dd format. Private.
  *     tags: [Diary]
@@ -106,7 +106,7 @@ router.post("/add", authenticateToken, ctrlWrapper(addDiaryRecord));
 
 /**
  * @swagger
- * /api/diary/delete/:id:
+ * /api/diary/delete/{id}:
  *   delete:
  *     summary: Delete a specific diary record by id. Private.
  *     tags: [Diary]

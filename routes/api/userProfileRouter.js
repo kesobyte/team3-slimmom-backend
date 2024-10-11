@@ -35,12 +35,16 @@ const router = express.Router();
  *                 type: integer
  *                 enum: [1, 2, 3, 4]
  *                 description: The user's blood type 1 for A, 2 for B, 3 for AB, 4 for O
+ *               dailyCalories:
+ *                 type: number
+ *                 description: This should always be autocalculated based on height age weight
  *             required:
  *               - height
  *               - dWeight
  *               - age
  *               - cWeight
  *               - bloodType
+ *               - dailyCalories
  *     responses:
  *       200:
  *         description: User profile updated successfully

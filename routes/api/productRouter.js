@@ -5,7 +5,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /api/product/blood-type/:bloodType:
+ * /api/product/blood-type/{bloodType}:
  *   get:
  *     summary: Retrieve products filtered by blood type. Public.
  *     tags: [Products]
@@ -51,17 +51,17 @@ router.get("/blood-type/:bloodType", getProductsByBloodType);
 
 /**
  * @swagger
- * /api/product/search{?title=product_user_is_trying_to_search}:
+ * /api/product/search:
  *   get:
- *     summary: Search for products based on a query parameter. Public.
+ *     summary: Search for products based on the title
  *     tags: [Products]
  *     parameters:
  *       - in: query
- *         name: query
+ *         name: title
  *         schema:
  *           type: string
  *         required: true
- *         description: The search term used to find products (e.g., product name or category)
+ *         description: A partial or full title of the product (case-insensitive)
  *     responses:
  *       200:
  *         description: A list of products matching the search criteria
@@ -74,16 +74,26 @@ router.get("/blood-type/:bloodType", getProductsByBloodType);
  *                 properties:
  *                   _id:
  *                     type: string
- *                   name:
+ *                   title:
  *                     type: string
+ *                   categories:
+ *                     type: string
+ *                   weight:
+ *                     type: number
  *                   calories:
  *                     type: number
- *                   category:
- *                     type: string
+ *                   groupBloodNotAllowed:
+ *                     type: array
+ *                     items:
+ *                       type: integer
+ *                       enum: [1, 2, 3, 4]
+ *                     description: Blood types for which this product is not allowed
  *       400:
- *         description: Missing or invalid search query parameter
+ *         description: Missing or invalid title query parameter
  *       404:
  *         description: No products found matching the search criteria
+ *       500:
+ *         description: Server error
  */
 
 // GET: https://goit-slimmom-team-03d472951ab141/api/product/search?title=steak
