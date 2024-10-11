@@ -5,9 +5,9 @@ const router = express.Router();
 
 /**
  * @swagger
- * /api/products/blood-type/{bloodType}:
+ * /api/products/blood-type/:bloodType:
  *   get:
- *     summary: Retrieve products filtered by blood type
+ *     summary: Retrieve products filtered by blood type. Public.
  *     tags: [Products]
  *     parameters:
  *       - in: path
@@ -46,14 +46,14 @@ const router = express.Router();
  *         description: No products found for the specified blood type
  */
 
-// Request to get non-recommended food: /api/products/blood-type/1
+// GET: https://goit-slimmom-team-03d472951ab141/api/product/blood-type/1 
 router.get("/blood-type/:bloodType", getProductsByBloodType);
 
 /**
  * @swagger
- * /api/products/search:
+ * /api/products/search{?title=product_user_is_trying_to_search}:
  *   get:
- *     summary: Search for products based on a query parameter
+ *     summary: Search for products based on a query parameter. Public.
  *     tags: [Products]
  *     parameters:
  *       - in: query
@@ -86,7 +86,7 @@ router.get("/blood-type/:bloodType", getProductsByBloodType);
  *         description: No products found matching the search criteria
  */
 
-// Route to search for products with query parameters
+// GET: https://goit-slimmom-team-03d472951ab141/api/product/search?title=steak
 router.get("/search", searchProducts);
 
 export { router };

@@ -3,7 +3,6 @@ import jwt from "jsonwebtoken";
 import "dotenv/config";
 import { httpError } from "../helpers/httpError.js";
 import { sendEmail } from "../helpers/sendEmail.js";
-import { handleTokens } from "../helpers/handleTokens.js";
 import { v4 as uuid4 } from "uuid";
 import { User } from "../models/userModel.js";
 import { Session } from "../models/sessionModel.js";
@@ -174,11 +173,6 @@ const verifyEmail = async (req, res) => {
     if (!user) {
       throw httpError(400, "User not found");
     }
-
-    // await User.findByIdAndUpdate(user._id, {
-    //   verify: true,
-    //   verificationToken: null,
-    // });
 
     // Update the user object to mark as verified
     user.verificationToken = null;

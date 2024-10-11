@@ -8,7 +8,7 @@ const router = express.Router();
  * @swagger
  * /api/profile/update:
  *   put:
- *     summary: Update the user profile information
+ *     summary: Update the user profile information of the authenticated user. Private.
  *     tags: [User]
  *     security:
  *       - bearerAuth: []
@@ -71,14 +71,14 @@ const router = express.Router();
  *         description: Unauthorized - user must be authenticated
  */
 
-// PUT: /api/profile/:userId
+// PUT: https://goit-slimmom-team-03d472951ab141/api/profile/update
 router.put("/update", authenticateToken, updateUserProfile);
 
 /**
  * @swagger
  * /api/profile/fetch:
  *   get:
- *     summary: Retrieve the profile information of the currently authenticated user
+ *     summary: Retrieve the profile information of the currently authenticated user. Private.
  *     tags: [User]
  *     security:
  *       - bearerAuth: []
@@ -110,7 +110,7 @@ router.put("/update", authenticateToken, updateUserProfile);
  *         description: User profile not found
  */
 
-// GET: /api/profile
+// GET: https://goit-slimmom-team-03d472951ab141/api/profile/fetch
 router.get("/fetch", authenticateToken, getUserProfile);
 
 export { router };

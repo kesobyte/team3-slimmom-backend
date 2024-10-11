@@ -18,7 +18,7 @@ app.use(express.json());
 
 app.use("/", homeRouter);
 app.use("/api/auth", authRouter);
-app.use("/api/products", productRouter);
+app.use("/api/product", productRouter);
 app.use("/api/profile", userProfileRouter);
 app.use("/api/diary", diaryRecordRouter);
 

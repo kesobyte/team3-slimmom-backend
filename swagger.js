@@ -30,7 +30,7 @@ const swaggerOptions = {
       },
     ],
   },
-  apis: ["./routes/api/*.js", "./controllers/*.js"], // Paths to files containing your annotated endpoints
+  apis: ["./routes/api/*.js", "./controllers/*.js"], // Paths to files containing annotated endpoints
 };
 
 // Initialize swagger-jsdoc

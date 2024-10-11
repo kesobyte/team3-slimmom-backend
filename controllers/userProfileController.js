@@ -2,7 +2,6 @@ import { Profile } from "../models/userProfileModel.js";
 import { Product } from "../models/productModel.js";
 import { httpError } from "../helpers/httpError.js";
 import { calculatorValidation } from "../validations/authValidation.js";
-import { getProductsByBloodType } from "./productController.js"; // Import the function
 
 const updateUserProfile = async (req, res, next) => {
   try {

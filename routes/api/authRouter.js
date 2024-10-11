@@ -10,7 +10,7 @@ const router = express.Router();
  * @swagger
  * /api/auth/register:
  *   post:
- *     summary: Register a new user
+ *     summary: Register a new user. Public.
  *     tags: [Auth]
  *     requestBody:
  *       required: true
@@ -59,13 +59,14 @@ const router = express.Router();
  *         description: Email already registered
  */
 
+// POST: https://goit-slimmom-team-03d472951ab141/api/auth/register
 router.post("/register", ctrlWrapper(register));
 
 /**
  * @swagger
- * /api/auth/verify/{verificationToken}:
+ * /api/auth/verify/:verificationToken:
  *   get:
- *     summary: Verify a user's email address
+ *     summary: Verify a user's email address. Public.
  *     tags: [Auth]
  *     parameters:
  *       - in: path
@@ -91,13 +92,14 @@ router.post("/register", ctrlWrapper(register));
  *         description: User not found or token invalid
  */
 
+// GET: https://goit-slimmom-team-03d472951ab141/api/auth/verify/6702595e9b21ebd131247e36
 router.get("/verify/:verificationToken", ctrlWrapper(verifyEmail));
 
 /**
  * @swagger
  * /api/auth/verify:
  *   post:
- *     summary: Resend a verification email
+ *     summary: Resend a verification email. Public.
  *     tags: [Auth]
  *     requestBody:
  *       required: true
@@ -129,13 +131,14 @@ router.get("/verify/:verificationToken", ctrlWrapper(verifyEmail));
  *         description: User not found
  */
 
+// POST: https://goit-slimmom-team-03d472951ab141/api/auth/verify
 router.post("/verify", ctrlWrapper(resendVerifyEmail));
 
 /**
  * @swagger
  * /api/auth/login:
  *   post:
- *     summary: Login a user
+ *     summary: Login a user. Public.
  *     tags: [Auth]
  *     requestBody:
  *       required: true
@@ -184,13 +187,14 @@ router.post("/verify", ctrlWrapper(resendVerifyEmail));
  *         description: Incorrect email or password
  */
 
+// POST: https://goit-slimmom-team-03d472951ab141/api/auth/login
 router.post("/login", ctrlWrapper(login));
 
 /**
  * @swagger
  * /api/auth/current:
  *   get:
- *     summary: Retrieve the currently authenticated user's information
+ *     summary: Retrieve the currently authenticated user's information. Private
  *     tags: [Auth]
  *     security:
  *       - bearerAuth: []
@@ -215,13 +219,14 @@ router.post("/login", ctrlWrapper(login));
  *         description: Unauthorized - user must be authenticated
  */
 
+// GET: https://goit-slimmom-team-03d472951ab141/api/auth/current
 router.get("/current", authenticateToken, ctrlWrapper(getCurrentUsers));
 
 /**
  * @swagger
  * /api/auth/refresh:
  *   post:
- *     summary: Refresh the access token using a valid refresh token
+ *     summary: Refresh the access token using a valid refresh token. Private.
  *     tags: [Auth]
  *     requestBody:
  *       required: true
@@ -255,13 +260,14 @@ router.get("/current", authenticateToken, ctrlWrapper(getCurrentUsers));
  *         description: Unauthorized - refresh token is invalid or expired
  */
 
+// POST: https://goit-slimmom-team-03d472951ab141/api/auth/refresh
 router.post("/refresh", refreshTokens); // do we need to prior to refreshingtoken?
 
 /**
  * @swagger
  * /api/auth/logout:
  *   post:
- *     summary: Logout the currently authenticated user
+ *     summary: Logout the currently authenticated user. Private.
  *     tags: [Auth]
  *     security:
  *       - bearerAuth: []
@@ -280,6 +286,7 @@ router.post("/refresh", refreshTokens); // do we need to prior to refreshingtoke
  *         description: Unauthorized - user must be authenticated
  */
 
+// POST: https://goit-slimmom-team-03d472951ab141/api/auth/logout
 router.post("/logout", authenticateToken, ctrlWrapper(logout));
 
 export { router };

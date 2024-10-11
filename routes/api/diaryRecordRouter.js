@@ -7,73 +7,9 @@ const router = express.Router();
 
 /**
  * @swagger
- * /api/diary/add:
- *   post:
- *     summary: Add a new diary record
- *     tags: [Diary]
- *     security:
- *       - bearerAuth: []
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               date:
- *                 type: string
- *                 format: date
- *               title:
- *                 type: string
- *               grams:
- *                 type: number
- *               calories:
- *                 type: number
- *               calorieIntake:
- *                 type: number
- *               category:
- *                 type: string
- *             required:
- *               - date
- *               - title
- *               - grams
- *               - calories
- *               - calorieIntake
- *               - category
- *     responses:
- *       201:
- *         description: Diary record added successfully
- *       400:
- *         description: Invalid request parameters
- */
-
-/**
- * @swagger
- * /api/diary/delete/{id}:
- *   delete:
- *     summary: Delete a specific diary record by ID
- *     tags: [Diary]
- *     security:
- *       - bearerAuth: []
- *     parameters:
- *       - in: path
- *         name: id
- *         schema:
- *           type: string
- *         required: true
- *         description: The diary record ID
- *     responses:
- *       200:
- *         description: Diary record deleted successfully
- *       404:
- *         description: Diary record not found or user does not have permission
- */
-
-/**
- * @swagger
- * /api/diary/fetch:
+ * /api/diary/fetch{?date=yyyy-mm-dd}:
  *   get:
- *     summary: Retrieve diary records filtered by a specified date yyyy-mm-dd format
+ *     summary: Retrieve diary record filtered by specified date with yyyy-mm-dd format. Private.
  *     tags: [Diary]
  *     security:
  *       - bearerAuth: []
@@ -120,14 +56,77 @@ const router = express.Router();
  *         description: No diary records found for the specified date
  */
 
-// POST route to add a new diary record
-router.post("/add", authenticateToken, ctrlWrapper(addDiaryRecord));
-
-// GET route to retrieve diary records filtered by a specified date
-// http://localhost:5000/api/diary/fetch?date=2024-10-10
+// GET: https://goit-slimmom-team-03d472951ab141/api/diary/fetch?date=2024-10-10
 router.get("/fetch", authenticateToken, ctrlWrapper(getDiaryRecordsByDate));
 
-// DELETE route to delete a specific diary record by ID
+/**
+ * @swagger
+ * /api/diary/add:
+ *   post:
+ *     summary: Add a new diary record. Private.
+ *     tags: [Diary]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               date:
+ *                 type: string
+ *                 format: date
+ *               title:
+ *                 type: string
+ *               grams:
+ *                 type: number
+ *               calories:
+ *                 type: number
+ *               calorieIntake:
+ *                 type: number
+ *               category:
+ *                 type: string
+ *             required:
+ *               - date
+ *               - title
+ *               - grams
+ *               - calories
+ *               - calorieIntake
+ *               - category
+ *     responses:
+ *       201:
+ *         description: Diary record added successfully
+ *       400:
+ *         description: Invalid request parameters
+ */
+
+// POST: https://goit-slimmom-team-03d472951ab141/api/diary/add
+router.post("/add", authenticateToken, ctrlWrapper(addDiaryRecord));
+
+/**
+ * @swagger
+ * /api/diary/delete/:id:
+ *   delete:
+ *     summary: Delete a specific diary record by id. Private.
+ *     tags: [Diary]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The diary record ID
+ *     responses:
+ *       200:
+ *         description: Diary record deleted successfully
+ *       404:
+ *         description: Diary record not found or user does not have permission
+ */
+
+// DELETE: https://goit-slimmom-team-03d472951ab141/api/diary/delete/67079d85d1944d1e851fa9fe
 router.delete("/delete/:id", authenticateToken, (req, res, next) => {
     console.log("DELETE route hit");
     next();
