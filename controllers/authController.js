@@ -114,6 +114,7 @@ const login = async (req, res) => {
       message: 'Login successful',
       accessToken,
       refreshToken,
+      user,
     });
   } catch (error) {
     console.error('Error during login:', error);
