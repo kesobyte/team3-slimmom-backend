@@ -10,7 +10,7 @@ const router = express.Router();
  * @swagger
  * /api/auth/register:
 *   post:
- *     summary: Register a new user
+ *     summary: Register a new user. Public.
  *     tags: [Auth]
  *     requestBody:
  *       required: true
@@ -117,8 +117,6 @@ router.post("/register", register);
  *                   example: "Email verified successfully"
  *       400:
  *         description: Invalid or expired verification token
- *       404:
- *         description: User not found or token invalid
  */
 
 // GET: https://goit-slimmom-team-03d472951ab141/api/auth/verify/6702595e9b21ebd131247e36
@@ -223,7 +221,7 @@ router.post("/login", ctrlWrapper(login));
  * @swagger
  * /api/auth/current:
  *   get:
- *     summary: Retrieve the currently authenticated user's information
+ *     summary: Retrieve the currently authenticated user's information. Private.
  *     tags: [Auth]
  *     security:
  *       - bearerAuth: []
@@ -283,10 +281,10 @@ router.get("/current", authenticateToken, ctrlWrapper(getCurrentUsers));
  *                 refreshToken:
  *                   type: string
  *                   description: The new refresh token for future use
- *       400:
- *         description: Invalid or missing refresh token
  *       401:
- *         description: Unauthorized - refresh token is invalid or expired
+ *         description: Refresh token is missing
+ *       403:
+ *         description: Invalid or expired session refresh token
  */
 
 // POST: https://goit-slimmom-team-03d472951ab141/api/auth/refresh
@@ -313,6 +311,8 @@ router.post("/refresh", refreshTokens); // do we need to prior to refreshingtoke
  *                   example: "User logged out successfully"
  *       401:
  *         description: Unauthorized - user must be authenticated
+ *       403:
+ *         description: Invalid or expired token
  */
 
 // POST: https://goit-slimmom-team-03d472951ab141/api/auth/logout

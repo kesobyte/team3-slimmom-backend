@@ -7,7 +7,7 @@ const router = express.Router();
  * @swagger
  * /api/product/blood-type/{bloodType}:
  *   get:
- *     summary: Retrieve products filtered by blood type. Public.
+ *     summary: Retrieve products filtered by blood type. Public and Private.
  *     tags: [Products]
  *     parameters:
  *       - in: path
@@ -53,7 +53,7 @@ router.get("/blood-type/:bloodType", getProductsByBloodType);
  * @swagger
  * /api/product/search:
  *   get:
- *     summary: Search for products based on the title
+ *     summary: Search for products based on the title. Private, should only be used when trying to populate diary.
  *     tags: [Products]
  *     parameters:
  *       - in: query

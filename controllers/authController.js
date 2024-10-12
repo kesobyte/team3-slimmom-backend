@@ -86,13 +86,19 @@ const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Step 1: Find the user by email
+    //  Step 1: validation error
+    const { error } = loginValidation.validate(req.body);
+    if (error) {
+      return res.status(400).json({message: error.details[0].message});
+    }
+
+    // Step 2: Find the user by email
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    // Step 2: Verify the password (assuming bcrypt is used)
+    // Step 3: Verify the password (assuming bcrypt is used)
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(401).json({ message: "Invalid credentials" });
@@ -123,7 +129,7 @@ const login = async (req, res) => {
       message: "Login successful",
       accessToken,
       refreshToken,
-      user,
+      user: { name: user.name }, // Only send user.name in the response
     });
   } catch (error) {
     console.error("Error during login:", error);
@@ -172,12 +178,9 @@ const verifyEmail = async (req, res) => {
     const { verificationToken } = req.params;
 
     // Log the verification token for debugging
-    console.log("Verification Token:", verificationToken);
+    // console.log("Verification Token:", verificationToken);
 
     const user = await User.findOne({ verificationToken });
-
-    // Log the user found for debugging
-    console.log("User Found:", user);
 
     // Verification user Not Found
     if (!user) {
@@ -196,11 +199,12 @@ const verifyEmail = async (req, res) => {
     res.json({
       message: "Verification successful",
     });
-  } catch (error) {
+  } catch (err) {
     // Log the error for debugging
-    console.error("Error in email verification:", error.message);
-
-    res.status(500).json({ message: error.message });
+    console.error("Error in verifying email: ", err); // Log the error message
+    const status = err.status || 500;
+    const message = err.message || "Internal Server Error";
+    res.status(status).json({ message}); // Return the error message for easier debugging
   }
 };
 
@@ -254,9 +258,11 @@ const resendVerifyEmail = async (req, res) => {
 
     // Resending a email success response
     res.json({ message: "Verification email sent" });
-  } catch (error) {
-    console.error("Error sending verification email:", error.message);
-    res.status(500).json({ message: "Internal server error" });
+  } catch (err) {
+    console.error("Error in resending email: ", err); // Log the error message
+    const status = err.status || 500;
+    const message = err.message || "Internal Server Error";
+    res.status(status).json({ message}); // Return the error message for easier debugging
   }
 };
 
@@ -272,7 +278,7 @@ const refreshTokens = async (req, res) => {
     // Step 1: Check if the refresh token exists in the session database
     const session = await Session.findOne({ refreshToken });
     if (!session) {
-      return res.status(403).json({ message: "Invalid refresh token" });
+      return res.status(403).json({ message: "Invalid or expired session refresh token" });
     }
 
     // Step 2: Verify the refresh token
