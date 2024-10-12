@@ -52,8 +52,6 @@ const router = express.Router();
  *         description: Invalid date format or missing date parameter
  *       401:
  *         description: Unauthorized - user must be authenticated
- *       404:
- *         description: No diary records found for the specified date
  */
 
 // GET: https://goit-slimmom-team-03d472951ab141/api/diary/fetch?date=2024-10-10
