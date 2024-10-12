@@ -129,7 +129,7 @@ const login = async (req, res) => {
       message: "Login successful",
       accessToken,
       refreshToken,
-      user: { name: user.name }, // Only send user.name in the response
+      user: { name: user.name, verified: user.verified }, // Only send user.name in the response
     });
   } catch (error) {
     console.error("Error during login:", error);
