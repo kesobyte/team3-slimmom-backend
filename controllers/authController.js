@@ -20,15 +20,16 @@ const register = async (req, res) => {
     //  Registration validation error
     const { error } = registerValidation.validate(req.body);
     if (error) {
-      throw httpError(400, error.message);
+      return res.status(400).json({message: error.details[0].message});
     }
 
-    // Registration conflict error
+    // Registration conflict error, check if email is already registered
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      throw httpError(409, "Email in Use");
+      return res.status(409).json({ message: 'Email already registered' });
     }
 
+    // Hashed the password
     const hashPassword = await bcrypt.hash(password, 10);
 
     // Create a verificationToken for the user
@@ -72,8 +73,8 @@ const register = async (req, res) => {
       message: "Account created successfully",
     });
   } catch (err) {
-    console.error('Error in register route: ', err);
-    res.status(500).json({ message: 'Internal Server Error' });
+    console.error('Error in register route: ', err.message); // Log the error message
+    res.status(500).json({ message: 'Internal Server Error', error: err.message }); // Return the error message for easier debugging
   }
 };
 
@@ -136,7 +137,11 @@ const getCurrentUsers = async (req, res) => {
     });
   } catch (error) {
     console.error('Error fetching current user:', error);
-    res.status(500).json({ message: 'Error fetching current user' });
+    // Check if the error is a conflict (409) or another error
+    if (error.status === 409) {
+      return res.status(409).json({ message: error.message });
+    }
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 };
 

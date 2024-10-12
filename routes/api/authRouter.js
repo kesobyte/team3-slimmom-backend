@@ -9,8 +9,8 @@ const router = express.Router();
 /**
  * @swagger
  * /api/auth/register:
- *   post:
- *     summary: Register a new user. Public.
+*   post:
+ *     summary: Register a new user
  *     tags: [Auth]
  *     requestBody:
  *       required: true
@@ -21,22 +21,43 @@ const router = express.Router();
  *             properties:
  *               name:
  *                 type: string
- *                 description: The name of the user
+ *                 description: The user's name (must be between 3 and 30 characters)
+ *                 example: "John Doe"
  *               email:
  *                 type: string
  *                 format: email
  *                 description: The user's email address
+ *                 example: "johndoe@example.com"
  *               password:
  *                 type: string
  *                 format: password
- *                 description: The password for the user's account
+ *                 description: The user's password (minimum 6 characters)
+ *                 example: "password123"
  *             required:
  *               - name
  *               - email
  *               - password
  *     responses:
  *       201:
- *         description: User registered successfully
+ *         description: Account created successfully. A verification email is sent to the user.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 user:
+ *                   type: object
+ *                   properties:
+ *                     name:
+ *                       type: string
+ *                     email:
+ *                       type: string
+ *                   description: The details of the newly registered user
+ *                 message:
+ *                   type: string
+ *                   example: "Account created successfully"
+ *       400:
+ *         description: Validation error - Invalid input
  *         content:
  *           application/json:
  *             schema:
@@ -44,23 +65,31 @@ const router = express.Router();
  *               properties:
  *                 message:
  *                   type: string
- *                 user:
- *                   type: object
- *                   properties:
- *                     id:
- *                       type: string
- *                     name:
- *                       type: string
- *                     email:
- *                       type: string
- *       400:
- *         description: Invalid input or missing required fields
+ *                   example: "Validation error message"
  *       409:
- *         description: Email already registered
+ *         description: Conflict - Email is already registered
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Email already registered"
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Internal Server Error"
  */
 
 // POST: https://goit-slimmom-team-03d472951ab141/api/auth/register
-router.post("/register", ctrlWrapper(register));
+router.post("/register", register);
 
 /**
  * @swagger
