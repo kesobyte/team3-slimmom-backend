@@ -73,10 +73,10 @@ const register = async (req, res) => {
       message: "Account created successfully",
     });
   } catch (err) {
-    console.error("Error in register route: ", err.message); // Log the error message
+    console.error("Error in register route: ", err); // Log the error message
     const status = err.status || 500;
     const message = err.message || "Internal Server Error";
-    res.status(status).json({ message, error: err.message }); // Return the error message for easier debugging
+    res.status(status).json({ message}); // Return the error message for easier debugging
   }
 };
 
