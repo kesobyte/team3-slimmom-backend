@@ -12,8 +12,12 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: "https://goit-slimmom-team-03-d472951ab141.herokuapp.com",
-        url: "http://localhost:5000"
+        url: "https://goit-slimmom-team-03-d472951ab141.herokuapp.com",  // Live server
+        description: "Production server",
+      },
+      {
+        url: "http://localhost:5000",  // Local server
+        description: "Development server",
       },
     ],
     components: {
