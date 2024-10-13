@@ -299,8 +299,8 @@ router.post("/refresh", refreshTokens); // do we need to prior to refreshingtoke
  *     security:
  *       - bearerAuth: []
  *     responses:
- *       200:
- *         description: User logged out successfully
+ *       204:
+ *         description: User session has been ended
  *         content:
  *           application/json:
  *             schema:
@@ -309,8 +309,6 @@ router.post("/refresh", refreshTokens); // do we need to prior to refreshingtoke
  *                 message:
  *                   type: string
  *                   example: "User logged out successfully"
- *       401:
- *         description: Unauthorized - user must be authenticated
  *       403:
  *         description: Invalid or expired token
  */

@@ -1,5 +1,4 @@
 import { Product } from "../models/productModel.js";
-import { httpError } from "../helpers/httpError.js";
 
 const getProductsByBloodType = async (req, res, next) => {
   try {
@@ -9,7 +8,7 @@ const getProductsByBloodType = async (req, res, next) => {
     // Ensure bloodType is a number between 1 and 4
     const bloodTypeNum = Number(bloodType);
     if (!bloodTypeNum || bloodTypeNum < 1 || bloodTypeNum > 4) {
-      throw httpError(400, "Blood type must be a number between 1 and 4");
+      return res.status(400).json({ message: "Blood type must be a number between 1 and 4" });
     }
 
     // Find products where the value at groupBloodNotAllowed[bloodTypeNum] is false
