@@ -37,9 +37,15 @@ const searchProducts = async (req, res) => {
     // Create a filter object for the query
     const filter = {};
 
+    // Allow special character to be used as search input
+    const escapeRegex = (string) => {
+      return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); // Escape special characters
+    };
+
     // Add filters based on the provided query parameters
     if (title) {
-      filter.title = { $regex: title, $options: "i" }; // Case-insensitive search for title
+      const escapedTitle = escapeRegex(title);
+      filter.title = { $regex: escapedTitle, $options: "i" }; // Case-insensitive search for title
     }
     if (categories) {
       filter.categories = categories;
