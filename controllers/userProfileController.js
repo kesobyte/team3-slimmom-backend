@@ -18,7 +18,7 @@ const updateUserProfile = async (req, res, next) => {
     let userProfile = await Profile.findOne({ userId });
 
     if (!userProfile) {
-      console.log("No profile found for user. Creating a new profile.");
+      // console.log("No profile found for user. Creating a new profile.");
       // Create a new profile if it doesn't exist
       userProfile = await Profile.create({
         userId,

@@ -110,14 +110,14 @@ const login = async (req, res) => {
     let session = await Session.findOne({ userId: user._id });
     if (session) {
       // Session exists, update it with new tokens and expiration
-      console.log('Updating existing session with new tokens');
+      // console.log('Updating existing session with new tokens');
       session.accessToken = accessToken;
       session.refreshToken = refreshToken;
       session.expiration = Date.now() + 3600000; // Set new expiration for 1 hour
       await session.save();
     } else {
       // No existing session, create a new session
-      console.log('Creating new session');
+      // console.log('Creating new session');
       const newSession = new Session({
         accessToken,
         refreshToken,
@@ -194,7 +194,7 @@ const verifyEmail = async (req, res) => {
 
     // Try to save the user and log the result for debugging
     await user.save();
-    console.log("User verification updated and saved successfully.");
+    // console.log("User verification updated and saved successfully.");
 
     // Verification success response
     res.json({message: "Verification successful"});

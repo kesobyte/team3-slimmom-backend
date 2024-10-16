@@ -73,7 +73,7 @@ const deleteDiaryRecord = async (req, res, next) => {
       const userId = req.user._id; // User ID from the authenticated user
       const { id } = req.params; // Diary record ID from the request parameters
 
-      console.log(`Attempting to delete record with ID: ${id} for user: ${userId}`);
+      // console.log(`Attempting to delete record with ID: ${id} for user: ${userId}`);
       if (!mongoose.Types.ObjectId.isValid(id)) {
         throw httpError(400, "Invalid ID format");
       }
@@ -82,7 +82,7 @@ const deleteDiaryRecord = async (req, res, next) => {
       const record = await DiaryRecord.findOneAndDelete({ _id: id, userId });
   
       if (!record) {
-        console.log("Diary record not found or user does not have permission");
+        // console.log("Diary record not found or user does not have permission");
         throw httpError(404, "Diary record not found or you do not have permission to delete it");
       }
   
