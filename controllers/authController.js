@@ -107,15 +107,25 @@ const login = async (req, res) => {
     const refreshToken = jwt.sign({ userId: user._id }, process.env.JWT_REFRESH_SECRET, { expiresIn: "7d" });
 
     // Step 6: Create a new session and save it to the database
-    const newSession = new Session({
-      accessToken,
-      refreshToken,
-      expiration: Date.now() + 3600000, // Set expiration for 1 hour
-      userId: user._id,
-    });
-
-    await newSession.save(); // Save the session to the database
-
+    let session = await Session.findOne({ userId: user._id });
+    if (session) {
+      // Session exists, update it with new tokens and expiration
+      console.log('Updating existing session with new tokens');
+      session.accessToken = accessToken;
+      session.refreshToken = refreshToken;
+      session.expiration = Date.now() + 3600000; // Set new expiration for 1 hour
+      await session.save();
+    } else {
+      // No existing session, create a new session
+      console.log('Creating new session');
+      const newSession = new Session({
+        accessToken,
+        refreshToken,
+        expiration: Date.now() + 3600000, // Set expiration for 1 hour
+        userId: user._id,
+      });
+      await newSession.save(); // Save the session to the database
+    }
     // Step 7: Send the tokens back in the response
     res.status(200).json({
       message: "Login successful",
