@@ -197,7 +197,10 @@ const verifyEmail = async (req, res) => {
     // console.log("User verification updated and saved successfully.");
 
     // Verification success response
-    res.json({message: "Verification successful"});
+    // res.json({message: "Verification successful"});
+
+    // Rather than res.json, let's redirect
+    res.redirect("https://kesobyte.github.io/team3-slimmom-frontend/login");
   } catch (err) {
     // Log the error for debugging
     console.error("Error in verifying email: ", err);
