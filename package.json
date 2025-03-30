@@ -8,7 +8,8 @@
     "start:dev": "cross-env NODE_ENV=development nodemon ./server.js -L",
     "lint": "eslint **/*.js",
     "lint:fix": "eslint --fix **/*.js",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "build": "echo 'No build step required'"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
